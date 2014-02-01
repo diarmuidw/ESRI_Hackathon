@@ -7,7 +7,7 @@ Links to the online maps
 
 [[ Dublin Tweets with Images | http://bit.ly/Mo7CcK ]]
 
-[[ Cork Tweets | http://bit.ly/1iZQmIZ ]]
+[[ Cork Tweets | http://bit.ly/1iZTVz3 ]]
 
 
 

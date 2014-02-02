@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!--The viewport meta tag is used to improve the presentation and behavior
+    of the samples on iOS devices-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Custom Info Window</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+    <link rel="stylesheet" href="myModules/InfoWindow.css">
+    <style>
+      html, body, #mapDiv { height: 100%; width: 100%; margin: 0; padding: 0; } 
+  
+    </style>
+
+    <script>var dojoConfig = {
+        parseOnLoad:true,
+        packages: [{
+          "name": "myModules",
+          "location": location.pathname.replace(/\/[^/]+$/, "") + "/myModules"
+        }]
+      };
+    </script>
+    <script src="http://js.arcgis.com/3.8/"></script>
+    <script>
+
+    require([
+      "dojo/dom",
+      "dojo/dom-construct",
+      "esri/map", 
+      "myModules/InfoWindow",
+      "esri/layers/FeatureLayer",
+      "esri/InfoTemplate",
+      "dojo/string",
+      "dojo/domReady!"
+    ], function(
+       dom,
+       domConstruct,
+       Map,
+       InfoWindow,
+       FeatureLayer,
+       InfoTemplate,
+       string
+    ) {
+      //create the custom info window specifying any input options
+       var infoWindow = new  InfoWindow({
+          domNode: domConstruct.create("div", null, dom.byId("mapDiv"))
+       });
+
+      //create the map and specify the custom info window as the info window that will
+      //be used by the map 
+
+      var map = new Map("mapDiv", {
+        center: [-6.7, 53.34],
+        zoom: 11,
+        basemap: "topo",
+        infoWindow: infoWindow
+      });
+
+      //define the info template that is used to display the popup content. 
+      var template = new InfoTemplate();
+      template.setTitle("<b>${id}</b>");
+      //template.setContent("hello");
+      template.setContent(getTextContent);
+
+      //create the feature layer (street trees of San Francisco)
+      var featureLayer = new FeatureLayer("http://services2.arcgis.com/jKXBmbmXYE9k32Yt/arcgis/rest/services/out/FeatureServer/0",{
+        infoTemplate: template,
+        outFields: ["*"]
+      });
+      map.addLayer(featureLayer);
+
+      //resize the info window 
+      map.infoWindow.resize(180, 75);
+
+      
+      function getTextContent(graphic){
+        console.log(graphic.attributes.UPPERNAME);
+        return "<b>" + graphic.attributes.tweet+ "</b>";
+      }
+    });
+    </script>
+  </head>
+  <body>
+    <div id="mapDiv"></div>
+  </body>
+</html>

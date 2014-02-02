@@ -6,7 +6,7 @@
     <!--The viewport meta tag is used to improve the presentation and behavior
     of the samples on iOS devices-->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>Info Window Lite</title>
+    <title>Simple display of CSO data layer</title>
 
 
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
@@ -35,7 +35,7 @@
         var map = new Map("mapDiv", {
           basemap: "topo",
           center: [-6.3, 53.34],
-          zoom: 8
+          zoom: 12
         });
 
         var infoWindow = new InfoWindowLite(null, domConstruct.create("div", null, null, map.root));
@@ -43,8 +43,9 @@
         map.setInfoWindow(infoWindow);
 
         var template = new InfoTemplate();
-        template.setTitle("<b>${UPPERNAME</b>");
-        template.setContent("${UPPERNAME} is in the ${MALE} sub region.");
+        
+        template.setTitle("<b>${UPPERNAME}</b>");
+        template.setContent("Male: ${MALE} , Female: ${FEMALE}");
 
         //add a layer to the map
         var featureLayer = new FeatureLayer("http://census.cso.ie/ArcGIS/rest/services/2006/ElectoralDivisions2006/MapServer/0", {
@@ -62,6 +63,7 @@
   </head>
   
   <body c>
+    <b>Census data popup</b>
     <div id="mapDiv"></div>
   </body>
 
